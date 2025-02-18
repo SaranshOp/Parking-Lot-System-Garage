@@ -1,0 +1,87 @@
+## Folders
+__pycache__/
+archive*/
+
+## Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+*.bak
+*.log
+
+## Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+## Jupyter Notebooks
+.ipynb_checkpoints
+
+## VS Code
+.vscode/
+*.code-workspace
+
+## Pytest
+.cache/
+.pytest_cache/
+
+## Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+## Distribution / Packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+## Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+## Unit test / Coverage reports
+.tox/
+.nox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+## PyCharm
+.idea/
+
+## macOS
+.DS_Store
+
+## Windows
+Thumbs.db
+ehthumbs.db
