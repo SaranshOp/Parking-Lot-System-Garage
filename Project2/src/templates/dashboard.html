@@ -1,0 +1,166 @@
+<!-- templates/dashboard.html -->
+<html>
+<head>
+    <title>Parking System Dashboard</title>
+    <style>
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .section { margin-bottom: 30px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        .role-header { color: #2c3e50; margin-bottom: 20px; }
+        form { margin-bottom: 15px; }
+        input, select { padding: 8px; margin-right: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="float: right;">
+            <span style="color: #3498db;">Logged in as: {{ role }}</span>
+            <a href="/" style="margin-left: 15px; color: #e74c3c;">Switch Role</a>
+        </div>
+
+        <h1 class="role-header">Parking Management System - {{ role }} Dashboard</h1>
+
+        <!-- Admin Section -->
+        {% if role == "ADMIN" %}
+        <div class="section">
+            <h2>Create New Parking Lot</h2>
+            <form action="/admin/create-lot" method="post">
+                <input type="text" name="name" placeholder="Lot Name" required>
+                <input type="number" name="floors" min="1" placeholder="Floors" required>
+                <input type="number" name="spots" min="1" placeholder="Spots per Floor" required>
+                <button type="submit" style="background-color: #2ecc71; color: white;">Create Lot</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Operator/Admin Parking Controls -->
+        {% if role in ["OPERATOR", "ADMIN"] %}
+        <div class="section">
+            <h2>Vehicle Operations</h2>
+            
+            <!-- Park Vehicle Form -->
+            <form action="/operator/park" method="post">
+                <select name="lot_name" required>
+                    <option value="">Select Parking Lot</option>
+                    {% for lot in lots %}
+                    <option>{{ lot }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="reg_num" placeholder="Vehicle Registration" required>
+                <select name="vehicle_type" required>
+                    <option value="">Vehicle Type</option>
+                    {% for vt in vehicle_types %}
+                    <option>{{ vt }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" style="background-color: #3498db; color: white;">Park Vehicle</button>
+            </form>
+
+            <!-- Process Payment Form -->
+            <form action="/operator/payment" method="post">
+                <select name="lot_name" required>
+                    <option value="">Select Parking Lot</option>
+                    {% for lot in lots %}
+                    <option>{{ lot }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="reg_num" placeholder="Vehicle Registration" required>
+                <button type="submit" style="background-color: #f1c40f; color: black;">Process Payment</button>
+            </form>
+
+            <!-- Exit Vehicle Form -->
+            <form action="/operator/exit" method="post">
+                <select name="lot_name" required>
+                    <option value="">Select Parking Lot</option>
+                    {% for lot in lots %}
+                    <option>{{ lot }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="reg_num" placeholder="Vehicle Registration" required>
+                <button type="submit" style="background-color: #e74c3c; color: white;">Exit Vehicle</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <!-- Availability Check (All Roles) -->
+        <div class="section">
+            <h2>Check Parking Availability</h2>
+            <form id="availabilityForm">
+                <select name="lot_name" required>
+                    <option value="">Select Parking Lot</option>
+                    {% for lot in lots %}
+                    <option>{{ lot }}</option>
+                    {% endfor %}
+                </select>
+                <select name="vehicle_type" required>
+                    <option value="">Vehicle Type</option>
+                    {% for vt in vehicle_types %}
+                    <option>{{ vt }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" onclick="checkAvailability()" style="background-color: #9b59b6; color: white;">Check</button>
+            </form>
+            <div id="availabilityResults"></div>
+        </div>
+
+        <!-- Parking History (Admin) -->
+        {% if role == "ADMIN" %}
+        <div class="section">
+            <h2>Parking History</h2>
+            <select id="historyLot" onchange="loadHistory()">
+                <option value="">Select Parking Lot</option>
+                {% for lot in lots %}
+                <option>{{ lot }}</option>
+                {% endfor %}
+            </select>
+            <div id="historyResults"></div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        async function checkAvailability() {
+            const form = document.getElementById('availabilityForm');
+            const lot = form.lot_name.value;
+            const vehicleType = form.vehicle_type.value;
+            
+            const response = await fetch(`/availability/${lot}/${vehicleType}`);
+            const data = await response.json();
+            
+            let html = `<h3>Availability in ${data.lot} (${data.vehicle_type})</h3><table>`;
+            html += '<tr><th>Floor</th><th>Available Spots</th></tr>';
+            
+            Object.entries(data.availability).forEach(([floor, spots]) => {
+                html += `<tr><td>Floor ${floor}</td><td>${spots} spots</td></tr>`;
+            });
+            
+            html += '</table>';
+            document.getElementById('availabilityResults').innerHTML = html;
+        }
+
+        async function loadHistory() {
+            const lot = document.getElementById('historyLot').value;
+            if (!lot) return;
+            
+            const response = await fetch(`/history/${lot}`);
+            const data = await response.json();
+            
+            let html = `<h3>History for ${lot}</h3><table>`;
+            html += '<tr><th>Registration</th><th>Entry Time</th><th>Exit Time</th><th>Amount Paid</th></tr>';
+            
+            data.history.forEach(activity => {
+                html += `<tr>
+                    <td>${activity.registration}</td>
+                    <td>${new Date(activity.entry_time).toLocaleString()}</td>
+                    <td>${activity.exit_time ? new Date(activity.exit_time).toLocaleString() : 'N/A'}</td>
+                    <td>₹${activity.amount_paid.toFixed(2)}</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            document.getElementById('historyResults').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
