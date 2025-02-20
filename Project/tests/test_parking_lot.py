@@ -1,6 +1,6 @@
 # test_parking_lot.py
 import unittest
-from parking_lot import ParkingLot
+from ..src.parking_lot import ParkingLot
 from datetime import datetime, timedelta
 
 class TestParkingLot(unittest.TestCase):

@@ -1,0 +1,17 @@
+<!-- index.html -->
+<html>
+<body>
+    <script>
+        function selectRole(role) {
+            document.cookie = `session_role=${role}; path=/`;
+            window.location.href = '/dashboard';
+        }
+    </script>
+    <div style="text-align: center; margin-top: 100px;">
+        <h3>Select Your Role</h3>
+        <button onclick="selectRole('ADMIN')">Admin</button>
+        <button onclick="selectRole('OPERATOR')">Operator</button>
+        <button onclick="selectRole('USER')">User</button>
+    </div>
+</body>
+</html>

@@ -3,10 +3,22 @@ from typing import Dict, List, Optional
 import threading
 from datetime import datetime
 
+class UserRole(Enum):
+    ADMIN = "ADMIN"
+    OPERATOR = "OPERATOR"
+    USER = "USER"
+
+class User:
+    def __init__(self, username: str, role: UserRole):
+        self.username = username
+        self.role = role
+
 class VehicleType(Enum):
     BIKE = 1
     CAR = 1
     TRUCK = 2
+
+
 
 class PaymentStatus(Enum):
     PENDING = "PENDING"
@@ -111,6 +123,30 @@ class ParkingLot:
     def all_vehicles(self) -> List[tuple]:
         return [(v.registration_number, v.spots[0].floor_id, v.spots[0].spot_id) 
                 for v in self.vehicle_map.values()]
+    
+    def get_vehicle(self, registration_number: str):
+        return self.vehicle_map.get(registration_number)
+    
+    def is_full(self) -> bool:
+        return all(
+            all(spot.is_occupied for spot in floor.spots)
+            for floor in self.floors
+        ) if self.floors else False
+
+    
+    def get_parking_summary(self) -> Dict:
+        return {
+            "available_spots": self.get_available_spots(),
+            "is_full": self.is_full(),
+            "total_capacity": sum(len(floor.spots) for floor in self.floors),
+            "occupancy_percentage": self.calculate_occupancy()
+        }
+
+    def check_permission(self, user: User, required_role: UserRole):
+        """Check if the user has the required role for an action."""
+        if user.role != required_role:
+            raise PermissionError(f"User '{user.username}' does not have {required_role.value} privileges.")
+        
 
 # if __name__ == "__main__":
 #     parking_lot = ParkingLot(2, 5)

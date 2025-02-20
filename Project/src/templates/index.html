@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Lot System</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Parking Lot Management</h1>
+        
+        <div class="form-section">
+            <h2>Park Vehicle</h2>
+            <form id="parkForm">
+                <input type="text" id="regNumber" placeholder="Registration Number" required>
+                <select id="vehicleType">
+                    <option value="CAR">Car</option>
+                    <option value="BIKE">Bike</option>
+                    <option value="TRUCK">Truck</option>
+                </select>
+                <button type="submit">Park Vehicle</button>
+            </form>
+        </div>
+
+        <div class="status-section">
+            <h2>Parking Status</h2>
+            <div id="statusDisplay"></div>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
