@@ -10,6 +10,37 @@
         input, select { padding: 8px; margin-right: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+            .alert {
+                padding: 15px;
+                border-radius: 4px;
+                margin: 10px 0;
+                transition: all 0.3s ease;
+            }
+            .alert-success {
+                background-color: #d4edda;
+                border-color: #c3e6cb;
+                color: #155724;
+            }
+            .alert-danger {
+                background-color: #f8d7da;
+                border-color: #f5c6cb;
+                color: #721c24;
+            }
+            .result-box {
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin-top: 10px;
+                border-radius: 5px;
+                background-color: #f8f9fa;
+            }
+            .not-found {
+                color: #721c24;
+                background-color: #f8d7da;
+                padding: 10px;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+        
     </style>
 </head>
 <body>
@@ -25,7 +56,7 @@
         {% if role == "ADMIN" %}
         <div class="section">
             <h2>Create New Parking Lot</h2>
-            <form action="/admin/create-lot" method="post">
+            <form id="createLotForm" onsubmit="return handleCreateLot(event)">
                 <input type="text" name="name" placeholder="Lot Name" required>
                 <input type="number" name="floors" min="1" placeholder="Floors" required>
                 <input type="number" name="spots" min="1" placeholder="Spots per Floor" required>
@@ -33,14 +64,22 @@
             </form>
         </div>
         {% endif %}
+        
+        
+            <!-- Message Display Area -->
+            <div id="messageArea" style="margin: 20px 0; display: none;" class="alert">
+                <span id="messageText"></span>
+            </div>
 
         <!-- Operator/Admin Parking Controls -->
         {% if role in ["OPERATOR", "ADMIN"] %}
         <div class="section">
             <h2>Vehicle Operations</h2>
             
-            <!-- Park Vehicle Form -->
-            <form action="/operator/park" method="post">
+            <!-- Park Vehicle Form 
+            <form action="/operator/park" method="post">-->
+
+            <form id="parkVehicleForm" onsubmit="return handleParkVehicle(event)">
                 <select name="lot_name" required>
                     <option value="">Select Parking Lot</option>
                     {% for lot in lots %}
@@ -57,8 +96,9 @@
                 <button type="submit" style="background-color: #3498db; color: white;">Park Vehicle</button>
             </form>
 
-            <!-- Process Payment Form -->
-            <form action="/operator/payment" method="post">
+            <!-- Process Payment Form 
+            <form action="/operator/payment" method="post">-->
+            <form id="paymentForm" onsubmit="return handlePayment(event)">
                 <select name="lot_name" required>
                     <option value="">Select Parking Lot</option>
                     {% for lot in lots %}
@@ -69,8 +109,9 @@
                 <button type="submit" style="background-color: #f1c40f; color: black;">Process Payment</button>
             </form>
 
-            <!-- Exit Vehicle Form -->
-            <form action="/operator/exit" method="post">
+            <!-- Exit Vehicle Form
+            <form action="/operator/exit" method="post"> -->
+            <form id="exitForm" onsubmit="return handleExit(event)">
                 <select name="lot_name" required>
                     <option value="">Select Parking Lot</option>
                     {% for lot in lots %}
@@ -82,7 +123,16 @@
             </form>
         </div>
         {% endif %}
-
+        {% if role in ["OPERATOR", "ADMIN"] %}
+        <div class="section">
+            <h2>Vehicle Lookup</h2>
+            <form id="lookupForm" onsubmit="handleLookup(event)">
+                <input type="text" name="reg_num" placeholder="Vehicle Registration" required>
+                <button type="submit" style="background-color: #3498db; color: white;">Lookup</button>
+            </form>
+            <div id="lookupResults"></div>
+        </div>
+        {% endif %}
         <!-- Availability Check (All Roles) -->
         <div class="section">
             <h2>Check Parking Availability</h2>
@@ -161,6 +211,141 @@
             html += '</table>';
             document.getElementById('historyResults').innerHTML = html;
         }
+
+            function showMessage(message, isSuccess) {
+                const messageArea = document.getElementById('messageArea');
+                const messageText = document.getElementById('messageText');
+                messageArea.style.display = 'block'; 
+                messageArea.className = `alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
+                messageText.textContent = message;
+               // setTimeout(() => messageArea.style.display = 'none', 5000); // Hide after 5 seconds
+            }
+        
+            async function handleCreateLot(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch('/admin/create-lot', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    showMessage(data.message, data.success);
+                    if (data.success) {
+                        form.reset();
+                        // Refresh lots list without page reload
+                        await updateLotsList();
+                    }
+                } catch (error) {
+                    showMessage('Error creating parking lot', false);
+                }               
+                return false;
+            }
+
+            async function updateLotsList() {
+                const response = await fetch('/dashboard');
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const lotSelects = doc.querySelectorAll('select[name="lot_name"]');
+                const currentSelects = document.querySelectorAll('select[name="lot_name"]');
+                currentSelects.forEach((select, index) => {
+                    select.innerHTML = lotSelects[index].innerHTML;
+                });
+            }
+            
+            // Handle Park Vehicle
+            async function handleParkVehicle(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch('/operator/park', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    showMessage(data.message, data.success);
+                    if (data.success) {
+                        form.reset();
+                    }
+                } catch (error) {
+                    showMessage('Error parking vehicle', false);
+                }
+            }
+            
+            // Handle Payment
+            async function handlePayment(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch('/operator/payment', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    showMessage(data.message, data.success);
+                    if (data.success) {
+                        form.reset();
+                    }
+                } catch (error) {
+                    showMessage('Error processing payment', false);
+                }
+            }
+            
+            // Handle Exit Vehicle
+            async function handleExit(event) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                
+                try {
+                    const response = await fetch('/operator/exit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    showMessage(data.message, data.success);
+                    if (data.success) {
+                        form.reset();
+                    }
+                } catch (error) {
+                    showMessage('Error exiting vehicle', false);
+                }
+            }
+            async function handleLookup(event) {
+                event.preventDefault();
+                const reg_num = event.target.reg_num.value;
+                
+                try {
+                    const response = await fetch(`/vehicle-lookup/${reg_num}`);
+                    const data = await response.json();
+                    
+                    let html = '';
+                    if (data.found) {
+                        html = `
+                            <div class="result-box">
+                                <h3>Vehicle Found!</h3>
+                                <p>Location: ${data.lot_name}</p>
+                                <p>Floor: ${data.floor_id}, Spot: ${data.spot_id}</p>
+                                <p>Entry Time: ${data.entry_time}</p>
+                                <p>Payment Status: ${data.payment_status}</p>
+                            </div>
+                        `;
+                    } else {
+                        html = `<p class="not-found">Vehicle not found in any parking lot</p>`;
+                    }
+                    
+                    document.getElementById('lookupResults').innerHTML = html;
+                } catch (error) {
+                    showMessage('Error looking up vehicle', false);
+                }
+            }
     </script>
 </body>
 </html>

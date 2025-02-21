@@ -17,8 +17,15 @@ class User(BaseModel):
 
 class VehicleType(Enum):
     BIKE = 1
-    CAR = 1
-    TRUCK = 2
+    CAR = 2
+    TRUCK = 3
+    
+    @property
+    def spots_needed(self) -> int:
+        if self in (VehicleType.BIKE, VehicleType.CAR):
+            return 1
+        return 2 
+
 
 class PaymentStatus(Enum):
     PENDING = "PENDING"
@@ -54,15 +61,20 @@ class ParkingFloor:
         self.lock = Lock()
 
     async def find_available_spots(self, vehicle_type: VehicleType) -> List[ParkingSpot]:
-        async with self.lock:
-            required = vehicle_type.value
-            available = []
-            for spot in self.spots:
-                if not spot.is_occupied and (spot.vehicle_type in (None, vehicle_type)):
-                    available.append(spot)
-                    if len(available) == required:
-                        return available
-            return []
+        required = vehicle_type.spots_needed
+        consecutive = 0
+        available = []
+        
+        for spot in self.spots:
+            if not spot.is_occupied and (spot.vehicle_type in (None, vehicle_type)):
+                consecutive += 1
+                available.append(spot)
+                if consecutive == required:
+                    return available
+            else:
+                consecutive = 0
+                available.clear()
+        return []
 
 class ParkingLot:
     def __init__(self, name: str, num_floors: int, spots_per_floor: int):
@@ -71,10 +83,10 @@ class ParkingLot:
         self.vehicles: Dict[str, Vehicle] = {}
         self.lock = Lock()
         self.activity_log: List[ParkingActivity] = []
-        self.hourly_rate = 50  # Default rate
+        self.hourly_rate = 10  # Default rate
 
     async def park_vehicle(self, reg_num: str, vehicle_type: VehicleType) -> Optional[Tuple[int, int]]:
-        async with self.lock:
+        
             if reg_num in self.vehicles:
                 return None
 
@@ -82,10 +94,13 @@ class ParkingLot:
             spots = []
             
             for floor in self.floors:
+                print (f"iterating through : {floor}")
                 async with floor.lock:
+                    print(f"floor lock acquired")
                     available = await floor.find_available_spots(vehicle_type)
-                    if len(available) >= vehicle_type.value:
-                        for spot in available[:vehicle_type.value]:
+                    print (f"available spots : {available}")
+                    if len(available) >= vehicle_type.spots_needed:
+                        for spot in available:
                             spot.is_occupied = True
                             spot.vehicle = vehicle
                             spot.vehicle_type = vehicle_type
@@ -94,11 +109,13 @@ class ParkingLot:
                         break
 
             if spots:
-                self.vehicles[reg_num] = vehicle
-                self.activity_log.append(ParkingActivity(
-                    registration=reg_num,
-                    entry_time=vehicle.entry_time
-                ))
+                print(f"parked at {spots}")
+                async with self.lock:
+                    self.vehicles[reg_num] = vehicle
+                    self.activity_log.append(ParkingActivity(
+                        registration=reg_num,
+                        entry_time=vehicle.entry_time
+                    ))
                 return spots[0]
             return None
 
@@ -158,7 +175,7 @@ class ParkingLot:
         for floor in self.floors:
             async with floor.lock:
                 count = 0
-                required = vehicle_type.value
+                required = vehicle_type.spots_needed
                 consecutive = 0
                 for spot in floor.spots:
                     if not spot.is_occupied and (spot.vehicle_type in (None, vehicle_type)):

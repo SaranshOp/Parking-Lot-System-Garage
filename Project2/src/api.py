@@ -25,10 +25,10 @@ class RoleChecker:
         self.allowed_roles = allowed_roles
 
     def __call__(self, role: UserRole = Depends(get_current_role)):
+        print(f"RoleChecker invoked with role: {role}")
         if role not in self.allowed_roles:
+            print(f"Access denied for role: {role}")
             raise HTTPException(403, "Insufficient permissions")
-
-
 
 
 
@@ -36,6 +36,8 @@ async def get_parking_lot(lot_name: str) -> ParkingLot:
     lot = parking_service.get_parking_lot(lot_name)
     if not lot:
         raise HTTPException(404, "Parking lot not found")
+    
+    print("lot name {lot_name} Picked up")
     return lot
 
 # ------ Routes ------
@@ -47,16 +49,21 @@ async def root(request: Request):
 async def select_role(role: UserRole = Form(...)):
     response = RedirectResponse(url="/dashboard", status_code=303)
     response.set_cookie(key="session_role", value=role.value, httponly=True)
+    print ( "cookie set to change role response {response.cookies}")
+
     return response
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request, role: UserRole = Depends(get_current_role)):
+    print(f"Vehicle types: {[vt for vt in VehicleType]}")
     context = {
         "request": request,
         "role": role.value,
         "lots": parking_service.list_parking_lots(),
         "vehicle_types": [vt.name for vt in VehicleType]
     }
+    print(f"Dashboard context: {context}")
+    
     return templates.TemplateResponse("dashboard.html", context)
 
 # ------ Admin Endpoints ------
@@ -70,7 +77,11 @@ async def create_lot(
 ):
     try:
         parking_service.create_parking_lot(name, floors, spots)
-        return RedirectResponse("/dashboard", status_code=303)
+        print(f"Created parking lot {name}")
+        return {
+            "success": True,
+            "message": f"Parking lot '{name}' created successfully with {floors} floors and {spots} spots per floor"
+        }
     except ValueError as e:
         raise HTTPException(400, str(e))
 
@@ -83,9 +94,12 @@ async def park_vehicle(
     role: UserRole = Depends(get_current_role),
     _=Depends(RoleChecker([UserRole.ADMIN, UserRole.OPERATOR]))
 ):
+    print(f"lot name {lot_name} started up")
     lot = await get_parking_lot(lot_name)
+    print(f"lot name {lot_name} Picked up")
     try:
         vt = VehicleType[vehicle_type.upper()]
+        print( f"Vehicle type {vt} picked up")
         spot = await lot.park_vehicle(reg_num, vt)
         return {"message": f"Parked at Floor {spot[0]} Spot {spot[1]}" if spot else "No spots available"}
     except KeyError:
@@ -142,3 +156,21 @@ async def get_vehicle_info(lot_name: str, reg_num: str):
     if not info:
         raise HTTPException(404, "Vehicle not found")
     return info
+
+@app.get("/vehicle-lookup/{reg_num}", response_class=JSONResponse)
+async def lookup_vehicle(reg_num: str):
+    # Search across all parking lots
+    for lot_name, lot in parking_service.parking_lots.items():
+        info = await lot.get_vehicle_info(reg_num)
+        if info:
+            return {
+                "found": True,
+                "lot_name": lot_name,
+                "registration": info["registration"],
+                "floor_id": info["assigned_spots"][0][0],
+                "spot_id": info["assigned_spots"][0][1],
+                "entry_time": info["entry_time"].strftime("%Y-%m-%d %H:%M:%S"),
+                "payment_status": info["payment_status"]
+            }
+    return {"found": False, "message": "Vehicle not found in any parking lot"}
+
