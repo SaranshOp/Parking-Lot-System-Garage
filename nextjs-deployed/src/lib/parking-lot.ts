@@ -1,4 +1,11 @@
-import { VehicleType, PaymentStatus, ParkingActivity, Vehicle, ParkingSpot } from './types';
+import {
+  VehicleType,
+  PaymentStatus,
+  ParkingActivity,
+  Vehicle,
+  ParkingSpot,
+  VehicleInfo,
+} from "./types";
 
 class ParkingFloor {
   floor_id: number;
@@ -9,7 +16,7 @@ class ParkingFloor {
     this.spots = Array.from({ length: spots_per_floor }, (_, i) => ({
       floor_id,
       spot_id: i,
-      is_occupied: false
+      is_occupied: false,
     }));
   }
 
@@ -19,7 +26,10 @@ class ParkingFloor {
     let available: ParkingSpot[] = [];
 
     for (const spot of this.spots) {
-      if (!spot.is_occupied && (!spot.vehicle_type || spot.vehicle_type === vehicle_type)) {
+      if (
+        !spot.is_occupied &&
+        (!spot.vehicle_type || spot.vehicle_type === vehicle_type)
+      ) {
         consecutive++;
         available.push(spot);
         if (consecutive === required) return available;
@@ -41,13 +51,19 @@ export class ParkingLot {
 
   constructor(name: string, num_floors: number, spots_per_floor: number) {
     this.name = name;
-    this.floors = Array.from({ length: num_floors }, (_, i) => new ParkingFloor(i, spots_per_floor));
+    this.floors = Array.from(
+      { length: num_floors },
+      (_, i) => new ParkingFloor(i, spots_per_floor)
+    );
     this.vehicles = new Map();
     this.activity_log = [];
     this.hourly_rate = 10;
   }
 
-  async parkVehicle(reg_num: string, vehicle_type: VehicleType): Promise<[number, number] | null> {
+  async parkVehicle(
+    reg_num: string,
+    vehicle_type: VehicleType
+  ): Promise<[number, number] | null> {
     if (this.vehicles.has(reg_num)) {
       return null;
     }
@@ -57,7 +73,7 @@ export class ParkingLot {
       vehicle_type,
       entry_time: new Date(),
       payment_status: PaymentStatus.PENDING,
-      assigned_spots: []
+      assigned_spots: [],
     };
 
     const spots: [number, number][] = [];
@@ -81,7 +97,7 @@ export class ParkingLot {
       this.activity_log.push({
         registration: reg_num,
         entry_time: vehicle.entry_time,
-        amount_paid: 0
+        amount_paid: 0,
       });
       return spots[0];
     }
@@ -108,7 +124,7 @@ export class ParkingLot {
     this.vehicles.delete(reg_num);
 
     // Update activity log
-    const activity = this.activity_log.find(a => a.registration === reg_num);
+    const activity = this.activity_log.find((a) => a.registration === reg_num);
     if (activity) {
       activity.exit_time = vehicle.exit_time;
     }
@@ -125,13 +141,14 @@ export class ParkingLot {
     }
 
     // Calculate payment
-    const duration = (new Date().getTime() - vehicle.entry_time.getTime()) / (1000 * 60 * 60);
+    const duration =
+      (new Date().getTime() - vehicle.entry_time.getTime()) / (1000 * 60 * 60);
     const amount = Math.round(duration * this.hourly_rate * 100) / 100;
 
     vehicle.payment_status = PaymentStatus.COMPLETED;
 
     // Update activity log
-    const activity = this.activity_log.find(a => a.registration === reg_num);
+    const activity = this.activity_log.find((a) => a.registration === reg_num);
     if (activity) {
       activity.amount_paid = amount;
     }
@@ -139,16 +156,21 @@ export class ParkingLot {
     return true;
   }
 
-  async getAvailability(vehicle_type: VehicleType): Promise<Record<number, number>> {
+  async getAvailability(
+    vehicle_type: VehicleType
+  ): Promise<Record<number, number>> {
     const availability: Record<number, number> = {};
-    
+
     for (const floor of this.floors) {
       let count = 0;
       const required = vehicle_type <= VehicleType.CAR ? 1 : 2;
       let consecutive = 0;
-      
+
       for (const spot of floor.spots) {
-        if (!spot.is_occupied && (!spot.vehicle_type || spot.vehicle_type === vehicle_type)) {
+        if (
+          !spot.is_occupied &&
+          (!spot.vehicle_type || spot.vehicle_type === vehicle_type)
+        ) {
           consecutive++;
           if (consecutive === required) {
             count++;
@@ -167,7 +189,7 @@ export class ParkingLot {
     return [...this.activity_log];
   }
 
-  async getVehicleInfo(reg_num: string): Promise<Record<string, any> | null> {
+  async getVehicleInfo(reg_num: string): Promise<VehicleInfo | null> {
     const vehicle = this.vehicles.get(reg_num);
     if (!vehicle) return null;
 
@@ -176,7 +198,7 @@ export class ParkingLot {
       type: VehicleType[vehicle.vehicle_type],
       entry_time: vehicle.entry_time,
       payment_status: vehicle.payment_status,
-      assigned_spots: vehicle.assigned_spots
+      assigned_spots: vehicle.assigned_spots,
     };
   }
 }

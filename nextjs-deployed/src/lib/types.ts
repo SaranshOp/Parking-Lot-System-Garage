@@ -47,3 +47,11 @@ export enum UserRole {
   export function getSpotsNeeded(type: VehicleType): number {
     return type <= VehicleType.CAR && type >= VehicleType.BIKE ? 1 : 2;
   }
+  
+  export interface VehicleInfo {
+  registration: string;
+  type: string;
+  entry_time: Date;
+  payment_status: PaymentStatus;
+  assigned_spots: [number, number][];
+}

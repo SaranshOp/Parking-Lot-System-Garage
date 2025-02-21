@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { UserRole, VehicleType } from '@/lib/types';
+import { UserRole } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { OperatorSection } from '@/components/OperatorSection';
 import { AvailabilitySection } from '@/components/AvailabilitySection';
@@ -23,8 +23,8 @@ export default function Dashboard() {
       const data = await response.json();
       setRole(data.role || UserRole.USER);
       setLots(data.lots);
-    } catch (error) {
-      console.error('Error fetching initial data:', error);
+    } catch (_error) {
+      console.error('Error fetching initial data:', _error);
     }
   };
 
