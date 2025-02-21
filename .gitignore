@@ -2,44 +2,44 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+nextjs-deployed/node_modules
+nextjs-deployed/.pnp
+nextjs-deployed/.pnp.*
+nextjs-deployed/.yarn/*
+nextjs-deployed/!.yarn/patches
+nextjs-deployed/!.yarn/plugins
+nextjs-deployed/!.yarn/releases
+nextjs-deployed/!.yarn/versions
 
 # testing
-/coverage
+nextjs-deployed/coverage
 
 # next.js
-/.next/
-/out/
+nextjs-deployed/.next/
+nextjs-deployed/out/
 
 # production
-/build
+nextjs-deployed/build
 
 # misc
-.DS_Store
-*.pem
+nextjs-deployed/.DS_Store
+nextjs-deployed/*.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+nextjs-deployed/npm-debug.log*
+nextjs-deployed/yarn-debug.log*
+nextjs-deployed/yarn-error.log*
+nextjs-deployed/.pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+nextjs-deployed/.env*
 
 # vercel
-.vercel
+nextjs-deployed/.vercel
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+nextjs-deployed/*.tsbuildinfo
+nextjs-deployed/next-env.d.ts
 
 
 
