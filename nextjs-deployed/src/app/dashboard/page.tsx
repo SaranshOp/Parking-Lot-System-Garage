@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { UserRole, VehicleType } from '@/lib/types';
+import { UserRole } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { OperatorSection } from '@/components/OperatorSection';
 import { AvailabilitySection } from '@/components/AvailabilitySection';
