@@ -8,13 +8,10 @@ export class ParkingError extends Error {
   }
 }
 
-// Declare global instance type
+// Global type declaration
 declare global {
-  namespace NodeJS {
-    interface Global {
-      parkingService: ParkingService;
-    }
-  }
+  // eslint-disable-next-line no-var
+  var parkingService: ParkingService | undefined;
 }
 
 export class ParkingService {
@@ -56,14 +53,17 @@ export class ParkingService {
   }
 }
 
-// Create singleton instance
-const globalObj = global as typeof globalThis & {
-  parkingService?: ParkingService;
-};
-const parkingService = globalObj.parkingService || new ParkingService();
-
-if (process.env.NODE_ENV !== "production") {
-  globalObj.parkingService = parkingService;
+// Singleton pattern implementation
+if (typeof global !== "undefined") {
+  if (!global.parkingService) {
+    global.parkingService = new ParkingService();
+  }
 }
 
-export { parkingService };
+// Export existing instance or create new one
+export const parkingService = global.parkingService || new ParkingService();
+
+// Preserve instance in development
+if (process.env.NODE_ENV !== "production" && typeof global !== "undefined") {
+  global.parkingService = parkingService;
+}

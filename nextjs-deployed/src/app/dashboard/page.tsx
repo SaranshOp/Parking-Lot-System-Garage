@@ -25,6 +25,7 @@ export default function Dashboard() {
       setLots(data.lots);
     } catch (_error) {
       console.error('Error fetching initial data:', _error);
+      
     }
   };
 
@@ -55,6 +56,7 @@ export default function Dashboard() {
       }
     } catch (error) {
       showMessage('Error creating parking lot', false);
+      console.error(error);
     }
   };
 
