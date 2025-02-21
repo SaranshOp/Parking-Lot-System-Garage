@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { UserRole } from '@/lib/types';
+import { UserRole, VehicleType } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { OperatorSection } from '@/components/OperatorSection';
 import { AvailabilitySection } from '@/components/AvailabilitySection';
 import { AdminHistorySection } from '@/components/AdminHistorySection';
+import { VehicleLookupSection } from '@/components/VehicleLookupSection';
 
 export default function Dashboard() {
   const [role, setRole] = useState<UserRole>(UserRole.USER);
@@ -23,9 +24,9 @@ export default function Dashboard() {
       const data = await response.json();
       setRole(data.role || UserRole.USER);
       setLots(data.lots);
-    } catch (_error) {
-      console.error('Error fetching initial data:', _error);
-      
+    } catch (error) {
+      console.error('Error fetching initial data:', error);
+
     }
   };
 
@@ -56,7 +57,7 @@ export default function Dashboard() {
       }
     } catch (error) {
       showMessage('Error creating parking lot', false);
-      console.error(error);
+      console.error('Error creating parking lot:', error);
     }
   };
 
@@ -134,6 +135,9 @@ export default function Dashboard() {
               </form>
             </div>
 
+            {/* Vehicle Lookup Section */}
+            <VehicleLookupSection showMessage={showMessage} />
+            
             {/* Admin gets operator section */}
             <OperatorSection lots={lots} showMessage={showMessage} />
             
@@ -147,6 +151,10 @@ export default function Dashboard() {
 
         {role === UserRole.OPERATOR && (
           <>
+            {/* Vehicle Lookup Section */}
+            <VehicleLookupSection showMessage={showMessage} />
+            
+            {/* Existing Sections */}
             <OperatorSection lots={lots} showMessage={showMessage} />
             <AvailabilitySection lots={lots} />
           </>

@@ -51,6 +51,9 @@ export class ParkingService {
   validateAdminAccess(lot_name: string): boolean {
     return this.parking_lots.has(lot_name);
   }
+  getParkingLots(): Map<string, ParkingLot> {
+    return this.parking_lots;
+  }
 }
 
 // Singleton pattern implementation
