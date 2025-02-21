@@ -1,0 +1,59 @@
+{#  <!-- dashboard.html -->
+<html>
+    <body>
+        <div style="float: right;">
+            Logged in as: {{ role }} | 
+            <a href="/">Switch Role</a>
+        </div>
+    
+        {% if role == "ADMIN" %}
+        <h3>Create Parking Lot</h3>
+        <form action="/admin/create-lot" method="post">
+            <input name="name" placeholder="Lot Name" required>
+            <input name="floors" type="number" min="1" placeholder="Floors" required>
+            <input name="spots" type="number" min="1" placeholder="Spots per Floor" required>
+            <button type="submit">Create</button>
+        </form>
+        {% endif %}
+    
+        {% if role in ["OPERATOR", "ADMIN"] %}
+        <h3>Vehicle Operations</h3>
+        <form action="/operator/park" method="post">
+            <select name="lot_name" required>
+                {% for lot in lots %}<option>{{ lot }}</option>{% endfor %}
+            </select>
+            <input name="reg_num" placeholder="Registration" required>
+            <select name="vehicle_type" required>
+                {% for vt in vehicle_types %}<option>{{ vt }}</option>{% endfor %}
+            </select>
+            <button type="submit">Park Vehicle</button>
+        </form>
+    
+        <form action="/operator/payment" method="post">
+            <!-- Similar form fields for payment -->
+        </form>
+    
+        <form action="/operator/exit" method="post">
+            <!-- Similar form fields for exit -->
+        </form>
+        {% endif %}
+    
+        <h3>Check Availability</h3>
+        <form action="/availability/{lot_name}/{vehicle_type}" method="get">
+            <!-- Availability check form -->
+        </form>
+
+    <h3>History</h3>
+    <!-- Add history only accessable to admin -->
+  
+
+    <h3>Pay & Exit</h3> 
+
+
+    <h3>Logout</h3>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html> #}
