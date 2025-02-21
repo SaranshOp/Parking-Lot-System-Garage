@@ -1,4 +1,4 @@
-# 🚗 Parking Management System (Project 2)
+# 🚘 Parking Management System (Project 2)
 
 ![Parking Management System](https://pplx-res.cloudinary.com/image/upload/v1740139851/user_uploads/JNSrUtBItbDPAYE/image.jpg)
 
