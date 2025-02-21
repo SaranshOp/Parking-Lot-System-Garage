@@ -35,6 +35,7 @@ export function VehicleLookupSection({ showMessage }: VehicleLookupSectionProps)
       }
     } catch (error) {
       showMessage('Error looking up vehicle', false);
+      console.error('Error looking up vehicle:', error);
     }
   };
 
