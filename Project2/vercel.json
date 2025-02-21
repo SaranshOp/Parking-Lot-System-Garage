@@ -1,5 +1,10 @@
 {
   "version": 2,
-  "builds": [{ "src": "src/api.py", "use": "@vercel/python" }],
-  "routes": [{ "src": "/(.*)", "dest": "src/api.py" }]
+  "builds": [{ "src": "src/api.py", "use": "@vercel/python@3.10" }],
+  "routes": [{ "src": "/(.*)", "dest": "src/api.py" }],
+  "functions": {
+    "src/api.py": {
+      "includeFiles": ["templates/**"]
+    }
+  }
 }

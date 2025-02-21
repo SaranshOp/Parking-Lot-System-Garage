@@ -9,7 +9,8 @@ from datetime import datetime
 from typing import Optional
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+from pathlib import Path
+templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 parking_service = ParkingService()
 
 # ------ Dependency Injection ------
