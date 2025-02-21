@@ -2,15 +2,19 @@
 from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
-from parking_lot import ParkingLot, VehicleType, PaymentStatus, UserRole, ParkingActivity, User 
-from parking_service import ParkingService
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+from fastapi.staticfiles import StaticFiles
+from parking_lot import ParkingLot, VehicleType, PaymentStatus, UserRole, ParkingActivity, User 
+from parking_service import ParkingService
+
 
 app = FastAPI()
 from pathlib import Path
-templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
+# templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
+# app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 parking_service = ParkingService()
 
 # ------ Dependency Injection ------
@@ -174,4 +178,3 @@ async def lookup_vehicle(reg_num: str):
                 "payment_status": info["payment_status"]
             }
     return {"found": False, "message": "Vehicle not found in any parking lot"}
-

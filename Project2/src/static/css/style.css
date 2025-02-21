@@ -1,0 +1,64 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.section {
+  margin-bottom: 30px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+}
+.role-header {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+form {
+  margin-bottom: 15px;
+}
+input,
+select {
+  padding: 8px;
+  margin-right: 10px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.alert {
+  padding: 15px;
+  border-radius: 4px;
+  margin: 10px 0;
+  transition: all 0.3s ease;
+}
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+.result-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+}
+.not-found {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
