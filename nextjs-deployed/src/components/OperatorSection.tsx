@@ -27,6 +27,7 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       }
     } catch (_error) {
       showMessage('_error parking vehicle', false);
+      console.error(_error);
     }
   };
 
@@ -50,6 +51,7 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       }
     } catch (_error) {
       showMessage('_error processing payment', false);
+      console.error(_error);
     }
   };
 
@@ -73,6 +75,7 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       }
     } catch (_error) {
       showMessage('_error exiting vehicle', false);
+      console.error(_error);
     }
   };
 
