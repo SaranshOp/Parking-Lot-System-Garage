@@ -3,10 +3,12 @@ import { parkingService } from "@/lib/parking-service";
 
 export async function GET(
   request: Request,
-  { params }: { params: { lot: string; reg: string } }
+  { params }: { params: Promise<{ lot: string; reg: string }> }
 ) {
   try {
-    const lot = parkingService.getParkingLot(params.lot);
+    const { lot: lotName, reg } = await params;
+    const lot = parkingService.getParkingLot(lotName);
+
     if (!lot) {
       return NextResponse.json(
         { success: false, message: "Lot not found" },
@@ -14,7 +16,7 @@ export async function GET(
       );
     }
 
-    const info = await lot.getVehicleInfo(params.reg);
+    const info = await lot.getVehicleInfo(reg);
     if (!info) {
       return NextResponse.json(
         { success: false, message: "Vehicle not found" },
