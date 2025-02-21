@@ -25,8 +25,8 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       if (data.success) {
         (e.target as HTMLFormElement).reset();
       }
-    } catch (error) {
-      showMessage('Error parking vehicle', false);
+    } catch (_error) {
+      showMessage('_error parking vehicle', false);
     }
   };
 
@@ -48,8 +48,8 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       if (data.success) {
         (e.target as HTMLFormElement).reset();
       }
-    } catch (error) {
-      showMessage('Error processing payment', false);
+    } catch (_error) {
+      showMessage('_error processing payment', false);
     }
   };
 
@@ -71,8 +71,8 @@ export function OperatorSection({ lots, showMessage }: OperatorSectionProps) {
       if (data.success) {
         (e.target as HTMLFormElement).reset();
       }
-    } catch (error) {
-      showMessage('Error exiting vehicle', false);
+    } catch (_error) {
+      showMessage('_error exiting vehicle', false);
     }
   };
 

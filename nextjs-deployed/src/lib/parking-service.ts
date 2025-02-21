@@ -1,16 +1,20 @@
-import { ParkingLot } from './parking-lot';
-import { User, UserRole } from './types';
+import { ParkingLot } from "./parking-lot";
+import { User, UserRole } from "./types";
 
 export class ParkingError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ParkingError';
+    this.name = "ParkingError";
   }
 }
 
 // Declare global instance type
 declare global {
-  var parkingService: ParkingService | undefined;
+  namespace NodeJS {
+    interface Global {
+      parkingService: ParkingService;
+    }
+  }
 }
 
 export class ParkingService {
@@ -52,11 +56,14 @@ export class ParkingService {
   }
 }
 
-// Use global to persist instance across hot reloads
-const parkingService = global.parkingService || new ParkingService();
+// Create singleton instance
+const globalObj = global as typeof globalThis & {
+  parkingService?: ParkingService;
+};
+const parkingService = globalObj.parkingService || new ParkingService();
 
-if (process.env.NODE_ENV !== 'production') {
-  global.parkingService = parkingService;
+if (process.env.NODE_ENV !== "production") {
+  globalObj.parkingService = parkingService;
 }
 
 export { parkingService };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { VehicleType } from '@/lib/types';
+// import { VehicleType } from '@/lib/types';
 
 interface AvailabilitySectionProps {
   lots: string[];
