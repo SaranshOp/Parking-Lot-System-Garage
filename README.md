@@ -28,7 +28,6 @@ The system now supports three distinct roles with **varying levels of control**:
 
   - Create and manage multiple parking lots.
   - View and analyze the **history of incoming and outgoing vehicles**.
-  - Drag and modify parking lots dynamically.
   - Access all operator functionalities.
 
 - **Operator**:
