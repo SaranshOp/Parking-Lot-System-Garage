@@ -1,16 +1,29 @@
 # 🚘 Parking Lot Management System (Final Iteration)
 
-&#x20;[Project Link](https://srkathal-parking-lot-system.vercel.app/)
+[![Project Live Link](https://img.shields.io/badge/Project-Link-blue)](https://srkathal-parking-lot-system.vercel.app/)
+[![Project Documentation](https://img.shields.io/badge/Documentation-Link-blue)](https://github.com/SaranshOp/Parking-Lot-System-Garage)
 
-![Front Role Choose Page ](asset/final_image2.png)
+Demo Videos on Loom: ( there is a limit of time so I had to make 2 videos ).  
+Watch at 1.5x speed for better experience.
 
-![Parking Lot Management System ](asset/final_image.png)
+[![Demo Video](https://img.shields.io/badge/Demo-Video-red)](https://www.loom.com/share/a59e2082629f469f9e19a3fb8c381afd?sid=27efa5ca-6ec0-4031-959c-217225d565f9)
+[![Video...Continued](https://img.shields.io/badge/Demo-Video2-red)](https://www.loom.com/share/d24c8b6ffa4c45b4a282fd13d8346251?sid=52ebec37-cf0a-40e0-97c3-347d0017d0cf)
 
 ## 📖 Overview
 
 The **Parking Lot Management System** is a feature-rich web application designed to manage parking lots efficiently. Built using **TypeScript** and **NextJs**, this project is my third iteration in a series of parking management systems evolving from my previous implementations in **Python** and **FastAPI**. This project introduces **role-based access control, dynamic UI updates, multi-lot management, vehicle history tracking, and advanced querying**—all built on top of the original assignment requirements.
 
-This project builds upon the foundational concepts of **Project 1&2**, which focused on object-oriented programming principles and iterative experimentation. This is my **third iteration**, following a structured learning approach:
+---
+
+![Front Role Choose Page ](asset/final_image2.png)
+
+![Parking Lot Management System ](asset/final_image.png)
+
+---
+
+[Deployed Project](https://srkathal-parking-lot-system.vercel.app/)
+
+This project builds upon the foundational concepts of earlier **Project 1 & 2**, which focused on object-oriented programming principles and iterative experimentation. This is my **third iteration**, following a structured learning approach:
 
 1. **First Iteration** - Focused on understanding functional requirements and implemented as a **CLI-based system**.
 2. **Second Iteration** - Built with **FastAPI and JavaScript** for a basic web-based version.
