@@ -67,101 +67,107 @@ export default function Dashboard() {
         {/* Header Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <span className="text-blue-500 font-semibold">Logged in as: {role}</span>
-            </div>
-            <button
-              onClick={() => router.push('/')}
-              className="text-red-500 hover:text-red-600 font-medium"
-            >
-              Switch Role
-            </button>
+        <div className="flex items-center gap-4">
+          <span className="text-blue-500 font-semibold">Logged in as: {role}</span>
+        </div>
+        <button
+          onClick={() => router.push('/')}
+          className="text-red-500 hover:text-red-600 font-medium"
+        >
+          Switch Role
+        </button>
           </div>
           <h1 className="text-2xl font-bold text-gray-800 mt-4">
-            Parking Management System - {role} Dashboard
+        Parking Management System - {role} Dashboard
           </h1>
         </div>
 
         {/* Message Display */}
         {message && (
           <div className={`mb-6 p-4 rounded-lg ${
-            message.success ? 'bg-green-100 border-l-4 border-green-500 text-green-700' 
-                          : 'bg-red-100 border-l-4 border-red-500 text-red-700'
+        message.success ? 'bg-green-100 border-l-4 border-green-500 text-green-700' 
+              : 'bg-red-100 border-l-4 border-red-500 text-red-700'
           }`}>
-            {message.text}
+        {message.text}
           </div>
         )}
 
         {/* Role-based sections */}
         {role === UserRole.ADMIN && (
           <>
-            {/* Admin Section - Create Lot */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Create New Parking Lot</h2>
-              <form onSubmit={handleCreateLot} className="flex flex-wrap gap-4">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Lot Name"
-                  required
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <input
-                  type="number"
-                  name="floors"
-                  min="1"
-                  placeholder="Floors"
-                  required
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <input
-                  type="number"
-                  name="spots"
-                  min="1"
-                  placeholder="Spots per Floor"
-                  required
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
-                           focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 
-                           transform hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  Create Lot
-                </button>
-              </form>
-            </div>
-            
-            {/* Admin gets operator section */}
-            <OperatorSection lots={lots} showMessage={showMessage} />
+        {/* Admin Section - Create Lot */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Create New Parking Lot</h2>
+          <form onSubmit={handleCreateLot} className="flex flex-wrap gap-4">
+            <input
+          type="text"
+          name="name"
+          placeholder="Lot Name"
+          required
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+               focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <input
+          type="number"
+          name="floors"
+          min="1"
+          placeholder="Floors"
+          required
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+               focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <input
+          type="number"
+          name="spots"
+          min="1"
+          placeholder="Spots per Floor"
+          required
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+               focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button
+          type="submit"
+          className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 
+               transform hover:-translate-y-0.5 transition-all duration-200"
+            >
+          Create Lot
+            </button>
+          </form>
+        </div>
+        
+        {/* Admin gets operator section */}
+        <OperatorSection lots={lots} showMessage={showMessage} />
 
-                        {/* Vehicle Lookup Section */}
-                        <VehicleLookupSection showMessage={showMessage} />
-            
-            {/* Admin gets availability section */}
-            <AvailabilitySection lots={lots} />
-            
-            {/* Admin gets history section */}
-            <AdminHistorySection lots={lots} />
+        {/* Vehicle Lookup Section */}
+        <VehicleLookupSection showMessage={showMessage} />
+        
+        {/* Admin gets availability section */}
+        <AvailabilitySection lots={lots} />
+        
+        {/* Admin gets history section */}
+        <AdminHistorySection lots={lots} />
           </>
         )}
 
         {role === UserRole.OPERATOR && (
           <>
-            {/* Vehicle Lookup Section */}
-            <VehicleLookupSection showMessage={showMessage} />
-            
-            {/* Existing Sections */}
-            <OperatorSection lots={lots} showMessage={showMessage} />
-            <AvailabilitySection lots={lots} />
+        {/* Vehicle Lookup Section */}
+        <VehicleLookupSection showMessage={showMessage} />
+        
+        {/* Existing Sections */}
+        <OperatorSection lots={lots} showMessage={showMessage} />
+        <AvailabilitySection lots={lots} />
           </>
         )}
 
         {role === UserRole.USER && (
-          <AvailabilitySection lots={lots} />
+          <>
+        {/* Vehicle Lookup Section */}
+        <VehicleLookupSection showMessage={showMessage} />
+        
+        {/* Availability Section */}
+        <AvailabilitySection lots={lots} />
+          </>
         )}
       </div>
     </div>
