@@ -134,12 +134,12 @@ export default function Dashboard() {
                 </button>
               </form>
             </div>
-
-            {/* Vehicle Lookup Section */}
-            <VehicleLookupSection showMessage={showMessage} />
             
             {/* Admin gets operator section */}
             <OperatorSection lots={lots} showMessage={showMessage} />
+
+                        {/* Vehicle Lookup Section */}
+                        <VehicleLookupSection showMessage={showMessage} />
             
             {/* Admin gets availability section */}
             <AvailabilitySection lots={lots} />
@@ -166,4 +166,5 @@ export default function Dashboard() {
       </div>
     </div>
   );
+  
 }

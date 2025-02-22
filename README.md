@@ -1,12 +1,20 @@
-# 🚘 Parking Management System (Project 2)
+# 🚘 Parking Lot Management System (Final Iteration)
 
-![Parking Management System](https://pplx-res.cloudinary.com/image/upload/v1740139851/user_uploads/JNSrUtBItbDPAYE/image.jpg)
+&#x20;[Project Link](#)\
+
+![Parking Lot Management System - type 2 ->]()
+
+![Parking Lot Management System - type 2 ->]()
 
 ## 📖 Overview
 
-The **Parking Management System** is a feature-rich web application designed to manage parking lots efficiently. Built using **FastAPI** and a simple **HTML/JavaScript frontend**, this project is the second iteration in a series of parking management systems. It introduces advanced features such as role-based access control, real-time vehicle tracking, and dynamic user interactions.
+The **Parking Lot Management System** is a feature-rich web application designed to manage parking lots efficiently. Built using **TypeScript** and **NextJs**, this project is my third iteration in a series of parking management systems evolving from my previous implementations in **Python** and **FastAPI**. This project introduces **role-based access control, dynamic UI updates, multi-lot management, vehicle history tracking, and advanced querying**—all built on top of the original assignment requirements.
 
-This project builds upon the foundational concepts of **Project 1**, which focused on object-oriented programming principles and iterative experimentation. **Project 2** enhances functionality with a user-friendly UI and robust backend logic.
+This project builds upon the foundational concepts of **Project 1&2**, which focused on object-oriented programming principles and iterative experimentation. This is my **third iteration**, following a structured learning approach:
+
+1. **First Iteration** - Focused on understanding functional requirements and implemented as a **CLI-based system**.
+2. **Second Iteration** - Built with **FastAPI and JavaScript** for a basic web-based version.
+3. **Final Iteration** - Fully transitioned to **Next.js + TypeScript** with an intuitive UI and enhanced feature set.
 
 ---
 
@@ -14,49 +22,71 @@ This project builds upon the foundational concepts of **Project 1**, which focus
 
 ### 🎭 Role-Based Access Control
 
-The system supports three distinct roles:
+The system now supports three distinct roles with **varying levels of control**:
 
-1. **Admin**:
-   - Create new parking lots.
-   - View parking history for any lot.
-   - Access all operator functionalities.
-2. **Operator**:
-   - Park vehicles in available spots.
-   - Process payments for parked vehicles.
-   - Exit vehicles after payment is completed.
-3. **User**:
-   - Check parking availability by lot and vehicle type.
-   - Lookup vehicle location by registration number.
+- **Admin**:
 
----
+  - Create and manage multiple parking lots.
+  - View and analyze the **history of incoming and outgoing vehicles**.
+  - Drag and modify parking lots dynamically.
+  - Access all operator functionalities.
 
-### 🏗️ Parking Lot Management
+- **Operator**:
 
-- **Create Parking Lots**: Admins can create parking lots with specified floors and spots per floor.
-- **Dynamic Updates**: Newly created lots are dynamically updated in the UI without page reloads.
+  - Park vehicles dynamically based on type (Bike, Car, Truck).
+  - Process payments and handle vehicle exits.
+
+- **User**:
+
+  - Query available spots **per parking lot and per vehicle type**.
+  - Lookup vehicle locations using registration numbers.
 
 ---
 
-### 🚘 Vehicle Operations
+### 🏢 Multi-Lot Parking Management
 
-1. **Park Vehicles**:
-   - Operators can park vehicles based on type (Bike, Car, Truck).
-   - The system dynamically assigns the nearest available spot.
-2. **Payment Processing**:
-   - Payments are calculated based on the duration of parking (hourly rate).
-   - Operators can process payments directly from the dashboard.
-3. **Vehicle Exit**:
-   - Vehicles cannot exit without completing payment.
-   - Exiting updates the spot's availability in real-time.
+- **Admins can create multiple parking lots**, each with its own floors and spot distribution.
+- **Lots can be dragged and reorganized dynamically**.
+- **Users can query lots based on location and availability**.
 
 ---
 
-### 📊 Real-Time Tracking
+### 🚘 Vehicle Operations & Tracking
 
-1. **Availability Tracking**:
-   - Users can check floor-wise availability for specific vehicle types in any lot.
-2. **Vehicle Lookup**:
-   - Search for a vehicle by registration number to find its current location (lot name, floor, spot).
+1. **Real-time Vehicle Parking**:
+
+   - Vehicles are assigned to the **nearest available spot**.
+   - Operators can easily park and exit vehicles via an interactive UI.
+
+2. **History & Audit Logs**:
+
+   - **Admins can track all vehicle movements**, including entry/exit timestamps.
+   - Payment and duration records are maintained per vehicle.
+
+3. **Advanced Querying**:
+
+   - Users can filter by **lot, vehicle type, and availability**.
+   - Vehicles can be located using **registration numbers**.
+
+---
+
+### 📊 Real-Time Tracking & Availability
+
+- **Admins and users can check live floor-wise availability**.
+- **Operators receive real-time updates on parking space utilization**.
+- **Quick search functionality** allows users to locate their parked vehicles.
+
+---
+
+## 🗒 Assignment Requirements Fulfilled
+
+✅ **Multiple floors & spots** per parking lot.
+✅ **Different vehicle types & space allocation** (Bike = 1, Car = 1, Truck = 2 consecutive spots).
+✅ **Nearest available spot assignment** for parking.
+✅ **Vehicle exit & payment processing**.
+✅ **Querying available spots, full lot status, and vehicle location**.
+✅ **Concurrency handling** using event loops and locks.
+✅ **Optimized for future scalability**.
 
 ---
 
@@ -72,78 +102,25 @@ Admins can view a detailed history of all parked vehicles, including:
 
 ## 💻 Tech Stack
 
-- **Backend**: FastAPI, Python 3.x
-- **Frontend**: HTML, JavaScript, CSS
-- **Concurrency Management**: AsyncIO with locks
-- **State Management**: In-memory data structures
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Backend (Previous Version)**: FastAPI, Python
+- **Concurrency Management**: AsyncIO (Python), Next.js API routes
+- **State Management**: React Context API / Zustand
+- **Database (Future Scope)**: PostgreSQL or Firebase
 
 ---
 
-## 📋 Installation Instructions
+## 🎨 UI Evolution (Screenshots)
 
-### Prerequisites
+### CLI-Based Version (First Iteration)
 
-- Python 3.x installed on your system
-- A virtual environment setup
-
-### Steps to Run Locally
-
-1. Clone the repository:
-
-   ```
-   git clone [repository-url]
-   cd [repository-folder]
-   ```
-
-2. Install dependencies:
-
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. Navigate to the `src` folder:
-
-   ```
-   cd src/
-   ```
-
-4. Run the application:
-
-   ```
-   uvicorn api:app --reload
-   ```
-
-5. Open your browser at [http://127.0.0.1:8000](http://127.0.0.1:8000) to access the dashboard.
-
----
-
-## 🛠️ Functionalities
-
-### Admin Features
-
-1. Create new parking lots with name, floors, and spots per floor.
-2. Manage vehicle operations (park, process payment, exit).
-3. Check real-time availability for any lot and vehicle type.
-4. View detailed parking history for each lot.
-
-### Operator Features
-
-1. Park vehicles dynamically based on type (Bike/Car/Truck).
-2. Process payments based on duration of parking.
-3. Exit vehicles after successful payment.
-
-### User Features
-
-1. Check availability of spots in any lot by vehicle type.
-2. Lookup vehicle location by registration number.
-
----
-
-## 🖼️ Screenshots
+### FastAPI + JavaScript (Second Iteration)
 
 ### Dashboard (Admin View)
 
 ![Admin Dashboard](https://pplx-res.cloudinary.com/image/upload/v1740139851/user_uploads/JNSrUtBItbDPAYE/image.jpg)
+
+### Next.js + TypeScript (Final Version)
 
 ---
 
@@ -167,34 +144,78 @@ Admins can view a detailed history of all parked vehicles, including:
 
 ---
 
+## 🏠 Installation & Setup
+
+### Running the Next.js Version (Final Iteration)
+
+1. Clone the repository:
+   ```sh
+   git clone [repository-url]
+   cd nextjs-deployed
+   ```
+2. Install dependencies:
+   ```sh
+   npm i
+   ```
+3. Run the development server:
+   ```sh
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000)[ in you](http://localhost:3000)r browser.
+
+### Running the FastAPI Version (Second Iteration)
+
+1. Navigate to the FastAPI folder:
+   ```sh
+   cd Project2
+   ```
+2. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. Run the API:
+   ```sh
+   cd src
+   uvicorn api:app --reload
+   ```
+4. Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)[ to test](http://127.0.0.1:8000/docs) API endpoints.
+
+### Running the CLI Version (First Iteration)
+
+1. Navigate to the CLI-based project directory:
+   ```sh
+   cd project/src
+   ```
+2. Run the CLI script:
+   ```sh
+   python CLI.py
+   ```
+
 ## 🔮 Future Enhancements
 
-1. Integrate with a database for persistent storage of lots and vehicles.
-2. Add user authentication with JWT tokens to secure endpoints further.
-3. Implement advanced analytics dashboards for admins (e.g., revenue reports).
-4. Support reservations for specific spots or durations via an integrated booking system.
-5. Add mobile app support with push notifications for operators/admins.
+- **Database Integration**: Move from in-memory data to PostgreSQL/Firebase.
+- **User Authentication**: Implement JWT-based authentication.
+- **Mobile App**: Build a React Native app for operators and admins.
+- **Advanced Analytics**: Create dashboards for revenue and usage insights.
+- **Booking System**: Implement spot reservations in advance.
 
 ---
 
 ## 👥 Contributors
 
-- [Your Name] (Lead Developer)
-- [Team Member Names]
+- **Saransh** (Sole Developer)
 
 ---
 
-## 🌟 Highlights from Project 1 to Project 2
+## 🌟 Highlights from Project 1 to Project 2 to 3
 
-| Feature                | Project 1                | Project 2                      |
-| ---------------------- | ------------------------ | ------------------------------ |
-| Parking Lot Creation   | Basic CLI-based creation | Dynamic UI-based creation      |
-| Role-Based Access      | None                     | Admin, Operator, User          |
-| Vehicle Operations     | Limited                  | Full lifecycle (park/pay/exit) |
-| Availability Tracking  | None                     | Real-time updates              |
-| Vehicle Lookup         | None                     | Registration-based search      |
-| Concurrency Management | Basic                    | AsyncIO with locks             |
-
-i have now set up and gathered a strong foundation for future iterations like Project 3.
+| Feature                    | First Iteration (CLI) | Second Iteration (FastAPI) | Final Iteration (Next.js)       |
+| -------------------------- | --------------------- | -------------------------- | ------------------------------- |
+| **Parking Lot Creation**   | CLI-based             | API-based                  | Dynamic UI                      |
+| **Role-Based Access**      | None                  | Admin & Operator           | Admin, Operator, User           |
+| **Vehicle Operations**     | Basic                 | Payment + Exit             | Full lifecycle + History        |
+| **Availability Tracking**  | None                  | API Queries                | Real-time UI updates            |
+| **Vehicle Lookup**         | None                  | API-based                  | Registration-based search       |
+| **Concurrency Management** | Basic                 | AsyncIO                    | Optimized with state management |
 
 ---
