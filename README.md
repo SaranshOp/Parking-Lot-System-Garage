@@ -55,15 +55,14 @@ The system now supports three distinct roles with **varying levels of control**:
 
 ---
 
-### 🏢 Multi-Lot Parking Management
+#### 🏢 Multi-Lot Parking Management
 
 - **Admins can create multiple parking lots**, each with its own floors and spot distribution.
-- **Lots can be dragged and reorganized dynamically**.
 - **Users can query lots based on location and availability**.
 
 ---
 
-### 🚘 Vehicle Operations & Tracking
+#### 🚘 Vehicle Operations & Tracking
 
 1. **Real-time Vehicle Parking**:
 
@@ -75,14 +74,14 @@ The system now supports three distinct roles with **varying levels of control**:
    - **Admins can track all vehicle movements**, including entry/exit timestamps.
    - Payment and duration records are maintained per vehicle.
 
-3. **Advanced Querying**:
+3. **Querying**:
 
    - Users can filter by **lot, vehicle type, and availability**.
    - Vehicles can be located using **registration numbers**.
 
 ---
 
-### 📊 Real-Time Tracking & Availability
+#### 📊 Real-Time Tracking & Availability
 
 - **Admins and users can check live floor-wise availability**.
 - **Operators receive real-time updates on parking space utilization**.
@@ -92,13 +91,12 @@ The system now supports three distinct roles with **varying levels of control**:
 
 ## 🗒 Assignment Requirements Fulfilled
 
-✅ **Multiple floors & spots** per parking lot.
-✅ **Different vehicle types & space allocation** (Bike = 1, Car = 1, Truck = 2 consecutive spots).
-✅ **Nearest available spot assignment** for parking.
-✅ **Vehicle exit & payment processing**.
-✅ **Querying available spots, full lot status, and vehicle location**.
-✅ **Concurrency handling** using event loops and locks.
-✅ **Optimized for future scalability**.
+✔️ **Multiple floors & spots** per parking lot. <br>
+✔️ **Different vehicle types & space allocation** (Bike = 1, Car = 1, Truck = 2 consecutive spots).<br>
+✔️ **Nearest available spot assignment** for parking.<br>
+✔️ **Vehicle exit & payment processing**.<br>
+✔️ **Querying available spots and vehicle location**.<br>
+✔️ **Concurrency handling** using event loops and locks.<br>
 
 ---
 
@@ -137,26 +135,6 @@ Admins can view a detailed history of all parked vehicles, including:
 ### Next.js + TypeScript (Final Version)
 
 ## ![Parking Lot Management System ](asset/final_image.png)
-
-## 📈 API Endpoints
-
-### Admin Endpoints
-
-- `POST /admin/create-lot`: Create a new parking lot with specified floors and spots per floor.
-- `GET /history/{lot_name}`: Retrieve the complete parking history of a specific lot.
-
-### Operator Endpoints
-
-- `POST /operator/park`: Park a vehicle in an available spot based on its type.
-- `POST /operator/payment`: Process payment for parked vehicles based on duration.
-- `POST /operator/exit`: Exit a vehicle after payment is completed.
-
-### User Endpoints
-
-- `GET /availability/{lot_name}/{vehicle_type}`: Check floor-wise availability for a specific vehicle type in a lot.
-- `GET /vehicle-lookup/{reg_num}`: Find the location of a vehicle by its registration number.
-
----
 
 ## 🏠 Installation & Setup
 
@@ -205,31 +183,6 @@ Admins can view a detailed history of all parked vehicles, including:
    python CLI.py
    ```
 
-## 🔮 Future Enhancements
-
-- **Database Integration**: Move from in-memory data to PostgreSQL/Firebase.
-- **User Authentication**: Implement JWT-based authentication.
-- **Mobile App**: Build a React Native app for operators and admins.
-- **Advanced Analytics**: Create dashboards for revenue and usage insights.
-- **Booking System**: Implement spot reservations in advance.
-
----
-
-## 👥 Contributors
-
-- **Saransh** (Sole Developer)
-
----
-
-## 🌟 Highlights from Project 1 to Project 2 to 3
-
-| Feature                    | First Iteration (CLI) | Second Iteration (FastAPI) | Final Iteration (Next.js)       |
-| -------------------------- | --------------------- | -------------------------- | ------------------------------- |
-| **Parking Lot Creation**   | CLI-based             | API-based                  | Dynamic UI                      |
-| **Role-Based Access**      | None                  | Admin & Operator           | Admin, Operator, User           |
-| **Vehicle Operations**     | Basic                 | Payment + Exit             | Full lifecycle + History        |
-| **Availability Tracking**  | None                  | API Queries                | Real-time UI updates            |
-| **Vehicle Lookup**         | None                  | API-based                  | Registration-based search       |
-| **Concurrency Management** | Basic                 | AsyncIO                    | Optimized with state management |
+## Some other Technichal info at the [ReadMe2.md](ReadMe2.md) file.
 
 ---
