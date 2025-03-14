@@ -21,10 +21,13 @@ The **Parking Lot Management System** is a feature-rich web application designed
 
 ---
 
+<<<<<<< HEAD
 ## UML diagrams
 
 ![UML Diagram](asset/plantUML.png)
 
+=======
+>>>>>>> 9c5f1469bc498bf311834adb633672e564ec5c63
 [Deployed Project](https://srkathal-parking-lot-system.vercel.app/)
 
 This project builds upon the foundational concepts of earlier **Project 1 & 2**, which focused on object-oriented programming principles and iterative experimentation. This is my **third iteration**, following a structured learning approach:
@@ -187,6 +190,10 @@ Admins can view a detailed history of all parked vehicles, including:
    python CLI.py
    ```
 
+<<<<<<< HEAD
 #### Some other technichal information of project at the [ReadMe2.md](ReadMe2.md) file.
+=======
+## Some other Technichal info at the [ReadMe2.md](ReadMe2.md) file.
+>>>>>>> 9c5f1469bc498bf311834adb633672e564ec5c63
 
 ---
