@@ -21,12 +21,10 @@ The **Parking Lot Management System** is a feature-rich web application designed
 
 ---
 
-<<<<<<< HEAD
 ## UML diagrams
 
 ![UML Diagram](asset/plantUML.png)
 
-=======
 [Deployed Project](https://srkathal-parking-lot-system.vercel.app/)
 
 This project builds upon the foundational concepts of earlier **Project 1 & 2**, which focused on object-oriented programming principles and iterative experimentation. This is my **third iteration**, following a structured learning approach:
